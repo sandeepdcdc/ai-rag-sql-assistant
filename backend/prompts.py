@@ -35,13 +35,21 @@ STRICT RULES:
 15. For text filtering use LIKE '%value%'
 16. Never assume dates/months
 17. Never add unnecessary conditions
-18. Always use aliases for aggregate functions.
+18. Always use aliases for aggregate functions
 
 Incorrect:
 COUNT(patient_id)
 
 Correct:
 COUNT(patient_id) AS billing_count
+
+19. For month-wise, date-wise, year-wise trends:
+always order chronologically.
+
+Example:
+ORDER BY MONTH(date_column)
+
+20. Never order by aggregate count unless user asks for top/bottom.
 
 Question:
 {question}
@@ -196,6 +204,15 @@ LIMIT 3;
 Frontend result:
 
 Branch ID	Branch Name	Billing Count
+
+
+25. For month-wise, date-wise, year-wise trends:
+always order chronologically.
+
+Example:
+ORDER BY MONTH(date_column)
+
+26. Never order by aggregate count unless user asks for top/bottom.
 
 Corrected SQL:
 """
