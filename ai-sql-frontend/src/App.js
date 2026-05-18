@@ -202,11 +202,15 @@ function App() {
   // =========================================
   const formatColumnName = (column) => {
 
-    return column
-      .replace(/_/g, " ")
-      .replace(/\b\w/g, (char) => char.toUpperCase());
+  return column
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase())
+    .replace(/\bId\b/g, "ID")
+    .replace(/\bDc\b/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 
-  };
+};
 
   // =========================================
   // ASK QUESTION
