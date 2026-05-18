@@ -35,6 +35,13 @@ STRICT RULES:
 15. For text filtering use LIKE '%value%'
 16. Never assume dates/months
 17. Never add unnecessary conditions
+18. Always use aliases for aggregate functions.
+
+Incorrect:
+COUNT(patient_id)
+
+Correct:
+COUNT(patient_id) AS billing_count
 
 Question:
 {question}
@@ -46,7 +53,7 @@ def get_correction_prompt(
     sql_query,
     error,
     minimal_schema,
-    relationship_prompt
+    relationship_prompt,
 ):
 
     return f"""
@@ -113,6 +120,14 @@ state_name
 month
 
 23. Prefer business-friendly output instead of technical output
+
+24. Always use aliases for aggregate functions.
+
+Incorrect:
+COUNT(patient_id)
+
+Correct:
+COUNT(patient_id) AS billing_count
 
 EXAMPLES:
 
