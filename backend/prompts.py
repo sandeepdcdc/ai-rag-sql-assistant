@@ -50,6 +50,8 @@ Example:
 ORDER BY MONTH(date_column)
 
 20. Never order by aggregate count unless user asks for top/bottom.
+21. If user asks for month-wise analysis:
+    use MONTHNAME() for display.
 
 Question:
 {question}
@@ -213,6 +215,8 @@ Example:
 ORDER BY MONTH(date_column)
 
 26. Never order by aggregate count unless user asks for top/bottom.
+25. If user asks for month-wise analysis:
+use MONTHNAME() for display.
 
 Corrected SQL:
 """
