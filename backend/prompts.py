@@ -114,5 +114,73 @@ month
 
 23. Prefer business-friendly output instead of technical output
 
+EXAMPLES:
+
+Question:
+top 3 branches by billing count in January 2025
+
+SQL:
+SELECT
+    branch_id,
+    branch_name,
+    COUNT(patient_id) AS billing_count
+FROM dc_patient_billing
+WHERE MONTH(billing_date) = 1
+AND YEAR(billing_date) = 2025
+GROUP BY branch_id, branch_name
+ORDER BY billing_count DESC
+LIMIT 3;
+
+
+Question:
+top 5 states by billing count in 2025
+
+SQL:
+SELECT
+    s.state_id,
+    s.state_name,
+    COUNT(pb.patient_id) AS billing_count
+FROM dc_states s
+JOIN dc_branch b
+ON s.state_id = b.state_id
+JOIN dc_patient_billing pb
+ON b.branch_id = pb.branch_id
+WHERE YEAR(pb.billing_date) = 2025
+GROUP BY s.state_id, s.state_name
+ORDER BY billing_count DESC
+LIMIT 5;
+THIS WILL FIX
+
+✅ missing branch_id
+✅ ugly COUNT(column) names
+✅ inconsistent aliases
+✅ technical output
+✅ month number issues
+✅ missing state names
+✅ inconsistent grouping
+
+EXPECTED RESULT
+
+Question:
+
+top 3 branches by billing count in January 2025
+
+Generated SQL:
+
+SELECT
+    branch_id,
+    branch_name,
+    COUNT(patient_id) AS billing_count
+FROM dc_patient_billing
+WHERE MONTH(billing_date) = 1
+AND YEAR(billing_date) = 2025
+GROUP BY branch_id, branch_name
+ORDER BY billing_count DESC
+LIMIT 3;
+
+Frontend result:
+
+Branch ID	Branch Name	Billing Count
+
 Corrected SQL:
 """
