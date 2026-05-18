@@ -69,41 +69,50 @@ Relationships:
 
 RULES:
 
-1. Fix SQL completely
-2. Preserve business meaning
-3. Use ONLY exact columns
-4. Use ONLY provided tables
-5. Never invent columns
-6. Never invent tables
-7. Never explain anything
-8. Return ONLY executable MySQL query
-9. Always return descriptive column aliases.
-10. If month number is used, also return month name.
-11. If branch_id is used, include branch_name.
-12. If state_id is used, include state_name.
-13. Never return only IDs when related name columns exist.
-14. Use readable aliases like:
-   - Billing Count
-   - Month
-   - Branch Name
-   - State Name
-15. Prefer business-friendly output over technical output.
-16. Use MONTHNAME() whenever month is grouped.
+1. Use ONLY tables from schema
+2. Use ONLY exact column names
+3. Never invent columns
+4. Never invent tables
+5. Never use markdown
+6. Never explain anything
+7. Never use backticks
+8. Use JOIN only if multiple tables required
+9. If single table is sufficient, avoid unnecessary JOIN
+10. Use LIMIT {limit_value}
+11. Use GROUP BY for aggregations
+12. Use ORDER BY for top/bottom queries
+13. Return ONLY executable MySQL query
+14. For text filtering use LIKE '%value%'
+15. Never add unnecessary conditions
 
-EXAMPLE -
-Question:
-top 3 months billing count in 2025 for branch id 1
+16. Always use business-friendly aliases
 
-SQL:
-SELECT
-    MONTHNAME(billing_date) AS Month,
-    COUNT(patient_id) AS Billing_Count
-FROM dc_patient_billing
-WHERE branch_id = 1
-AND YEAR(billing_date) = 2025
-GROUP BY MONTH(billing_date), MONTHNAME(billing_date)
-ORDER BY Billing_Count DESC
-LIMIT 3;
+17. Every aggregate column MUST use aliases
+
+Examples:
+COUNT(*) AS billing_count
+SUM(amount) AS total_amount
+AVG(amount) AS average_amount
+
+18. Never return raw aggregate expressions like:
+COUNT(table.column)
+
+19. If branch_name is returned, also include branch_id
+
+20. If state_name is returned, also include state_id
+
+21. If month is used:
+Use:
+MONTHNAME(date_column) AS month
+
+22. Use readable aliases like:
+branch_id
+branch_name
+billing_count
+state_name
+month
+
+23. Prefer business-friendly output instead of technical output
 
 Corrected SQL:
 """
