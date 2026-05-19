@@ -52,7 +52,7 @@ ORDER BY MONTH(date_column)
 20. Never order by aggregate count unless user asks for top/bottom.
 21. If user asks for month-wise analysis:
     use MONTHNAME() for display.
-22. If an ID column is returned, also return its corresponding business name column when available.
+22. If an ID column is returned, also return its corresponding business name column along with id column when available.
 
 Examples:
 
@@ -216,9 +216,7 @@ ORDER BY billing_count DESC
 LIMIT 3;
 
 Frontend result:
-
 Branch ID	Branch Name	Billing Count
-
 
 25. For month-wise, date-wise, year-wise trends:
 always order chronologically.
@@ -230,7 +228,7 @@ ORDER BY MONTH(date_column)
 27. If user asks for month-wise analysis:
 use MONTHNAME() for display.
 
-28. If an ID column is returned, also return its corresponding business name column with id column when available.
+28. If an ID column is returned, also return its corresponding business name column along with id column when available.
 
 Examples 1:
 
