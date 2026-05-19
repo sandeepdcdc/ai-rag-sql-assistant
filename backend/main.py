@@ -154,7 +154,16 @@ def ask_question(request: QuestionRequest):
     # =====================================================
     # PROMPT
     # =====================================================
+    limit_match = re.search(
+        r'(top|bottom)\s+(\d+)',
+        question.lower()
+    )
 
+    if limit_match:
+       limit_value = limit_match.group(2)
+    else:
+        limit_value = "100"
+        
     prompt = get_sql_prompt(
         minimal_schema,
         relationship_prompt,
@@ -199,9 +208,9 @@ def ask_question(request: QuestionRequest):
             )
         )
 
-        corrected_sql = llm.invoke(
-            correction_prompt
-        )
+        # corrected_sql = llm.invoke(
+        #   correction_prompt
+        # )
 
         corrected_sql = clean_sql(
             corrected_sql
