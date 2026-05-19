@@ -4,7 +4,8 @@ def get_sql_prompt(
     minimal_schema,
     relationship_prompt,
     limit_value,
-    question
+    question,
+    semantic_prompt
 ):
 
     return f"""
@@ -17,6 +18,10 @@ Database Schema:
 Relationships:
 
 {relationship_prompt}
+
+Business Definitions:
+
+{semantic_prompt}
 
 STRICT RULES:
 

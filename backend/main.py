@@ -165,6 +165,22 @@ def ask_question(request: QuestionRequest):
     else:
         limit_value = "100"
 
+# ==========================================
+# BUSINESS SEMANTIC LAYER
+# ==========================================
+
+    semantic_prompt = """
+ 
+    Business Meanings:
+
+    - permission means dialysis_per_week
+    - dialysis permission means dialysis_per_week
+    - 2 permission means dialysis_per_week = 2
+    - 3 permission means dialysis_per_week = 3
+    - frequency means dialysis_per_week
+
+    """
+
     prompt = get_sql_prompt(
         minimal_schema,
         relationship_prompt,

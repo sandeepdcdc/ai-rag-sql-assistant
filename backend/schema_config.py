@@ -40,6 +40,27 @@ business_schema = {
     ]
 }
 
+business_term_mapping = {
+
+    "permission": {
+        "table": "dc_patient_permission",
+        "column": "dialysis_per_week",
+        "meaning": "dialysis frequency permission"
+    },
+
+    "dialysis permission": {
+        "table": "dc_patient_permission",
+        "column": "dialysis_per_week"
+    },
+
+    "2 permission": {
+        "table": "dc_patient_permission",
+        "column": "dialysis_per_week",
+        "value": 2
+    }
+
+}
+
 relationships = """
 
 1. dc_patient_billing.branch_id = dc_branch.branch_id
