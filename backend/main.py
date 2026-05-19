@@ -211,9 +211,11 @@ def ask_question(request: QuestionRequest):
             )
         )
 
-        # corrected_sql = llm.invoke(
-        #   correction_prompt
-        # )
+        corrected_sql = llm.invoke(
+          correction_prompt
+        )
+        
+        corrected_sql = corrected_sql.content
 
         corrected_sql = clean_sql(
             corrected_sql
