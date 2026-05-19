@@ -106,7 +106,6 @@ def get_correction_prompt(
     question,
     sql_query,
     error,
-    limit_value,
     minimal_schema,
     relationship_prompt,
 ):
