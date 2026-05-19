@@ -230,15 +230,52 @@ ORDER BY MONTH(date_column)
 27. If user asks for month-wise analysis:
 use MONTHNAME() for display.
 
-28. If an ID column is returned, also return its corresponding business name column when available.
+28. If an ID column is returned, also return its corresponding business name column with id column when available.
 
-Examples:
+Examples 1:
 
 patient_id -> patient_name
 branch_id -> branch_name
 state_id -> state_name
 city_id -> city_name
 doctor_id -> doctor_name
+
+Example 2: 
+
+Question:
+top 10 patient by billing count in 2025 in branch id 1
+
+SQL:
+SELECT
+    p.patient_id,
+    p.first_name,
+    COUNT(pb.patient_id) AS billing_count
+FROM dc_patients p
+JOIN dc_patient_billing pb
+ON p.patient_id = pb.patient_id
+WHERE pb.branch_id = 1
+AND YEAR(pb.billing_date) = 2025
+GROUP BY
+    p.patient_id,
+    p.first_name
+ORDER BY billing_count DESC
+LIMIT 10;
+
+Example 2:
+Question:
+top 5 branches by billing count
+
+SQL:
+SELECT
+    branch_id,
+    branch_name,
+    COUNT(patient_id) AS billing_count
+FROM dc_patient_billing
+GROUP BY
+    branch_id,
+    branch_name
+ORDER BY billing_count DESC
+LIMIT 5
 
 29. Never return only IDs if descriptive names exist.
 
