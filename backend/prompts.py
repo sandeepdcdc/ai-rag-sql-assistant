@@ -52,19 +52,48 @@ ORDER BY MONTH(date_column)
 20. Never order by aggregate count unless user asks for top/bottom.
 21. If user asks for month-wise analysis:
     use MONTHNAME() for display.
-22. If an ID column is returned, also return its corresponding business name column along with id column when available.
+
+22. If an ID column is selected or implied in the question,
+    ALWAYS include BOTH:
+        - ID column
+        - corresponding business name column
 
 Examples:
 
-patient_id -> patient_name
-branch_id -> branch_name
-state_id -> state_name
-city_id -> city_name
-doctor_id -> doctor_name
+patient_id + patient_name
+branch_id + branch_name
+state_id + state_name
+doctor_id + doctor_name
 
-23. Never return only IDs if descriptive names exist.
+23. Never replace IDs with names.
+Always return BOTH ID and name columns together.
 
-24. Prefer business-friendly output over technical output.
+24. IDs are mandatory for business reporting output.
+
+25. Never return only IDs if descriptive names exist.
+
+26. Prefer business-friendly output over technical output.
+
+Example:
+
+Question:
+top 10 patient by billing count in 2025 in branch id 1
+
+SQL:
+SELECT
+    p.patient_id,
+    p.full_name,
+    COUNT(pb.patient_id) AS billing_count
+FROM dc_patients p
+JOIN dc_patient_billing pb
+ON p.patient_id = pb.patient_id
+WHERE pb.branch_id = 1
+AND YEAR(pb.billing_date) = 2025
+GROUP BY
+    p.patient_id,
+    p.full_name
+ORDER BY billing_count DESC
+LIMIT 10;
 
 Question:
 {question}
@@ -228,17 +257,24 @@ ORDER BY MONTH(date_column)
 27. If user asks for month-wise analysis:
 use MONTHNAME() for display.
 
-28. If an ID column is returned, also return its corresponding business name column along with id column when available.
+28. 26. If an ID column is selected or implied in the question,
+    ALWAYS include BOTH:
+        - ID column
+        - corresponding business name column
 
-Examples 1:
+Examples:
 
-patient_id -> patient_name
-branch_id -> branch_name
-state_id -> state_name
-city_id -> city_name
-doctor_id -> doctor_name
+patient_id + patient_name
+branch_id + branch_name
+state_id + state_name
+doctor_id + doctor_name
 
-Example 2: 
+27. Never replace IDs with names.
+Always return BOTH ID and name columns together.
+
+28. IDs are mandatory for business reporting output.
+
+Example : 
 
 Question:
 top 10 patient by billing count in 2025 in branch id 1
@@ -246,7 +282,7 @@ top 10 patient by billing count in 2025 in branch id 1
 SQL:
 SELECT
     p.patient_id,
-    p.first_name,
+    p.full_name,
     COUNT(pb.patient_id) AS billing_count
 FROM dc_patients p
 JOIN dc_patient_billing pb
@@ -255,7 +291,7 @@ WHERE pb.branch_id = 1
 AND YEAR(pb.billing_date) = 2025
 GROUP BY
     p.patient_id,
-    p.first_name
+    p.full_name
 ORDER BY billing_count DESC
 LIMIT 10;
 
