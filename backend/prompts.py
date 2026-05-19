@@ -1,3 +1,5 @@
+import re
+
 def get_sql_prompt(
     minimal_schema,
     relationship_prompt,

@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 import pandas as pd
 from sqlalchemy import text
+import re
 
 from db import engine
 from pydantic import BaseModel
@@ -163,7 +164,7 @@ def ask_question(request: QuestionRequest):
        limit_value = limit_match.group(2)
     else:
         limit_value = "100"
-        
+
     prompt = get_sql_prompt(
         minimal_schema,
         relationship_prompt,
