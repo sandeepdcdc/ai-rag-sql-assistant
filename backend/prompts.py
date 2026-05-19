@@ -52,6 +52,19 @@ ORDER BY MONTH(date_column)
 20. Never order by aggregate count unless user asks for top/bottom.
 21. If user asks for month-wise analysis:
     use MONTHNAME() for display.
+22. If an ID column is returned, also return its corresponding business name column when available.
+
+Examples:
+
+patient_id -> patient_name
+branch_id -> branch_name
+state_id -> state_name
+city_id -> city_name
+doctor_id -> doctor_name
+
+23. Never return only IDs if descriptive names exist.
+
+24. Prefer business-friendly output over technical output.
 
 Question:
 {question}
@@ -156,7 +169,6 @@ GROUP BY branch_id, branch_name
 ORDER BY billing_count DESC
 LIMIT 3;
 
-
 Question:
 top 5 states by billing count in 2025
 
@@ -215,8 +227,22 @@ Example:
 ORDER BY MONTH(date_column)
 
 26. Never order by aggregate count unless user asks for top/bottom.
-25. If user asks for month-wise analysis:
+27. If user asks for month-wise analysis:
 use MONTHNAME() for display.
+
+28. If an ID column is returned, also return its corresponding business name column when available.
+
+Examples:
+
+patient_id -> patient_name
+branch_id -> branch_name
+state_id -> state_name
+city_id -> city_name
+doctor_id -> doctor_name
+
+29. Never return only IDs if descriptive names exist.
+
+30. Prefer business-friendly output over technical output.
 
 Corrected SQL:
 """
