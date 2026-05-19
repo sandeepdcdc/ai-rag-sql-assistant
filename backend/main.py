@@ -185,7 +185,8 @@ def ask_question(request: QuestionRequest):
         minimal_schema,
         relationship_prompt,
         limit_value,
-        question
+        question,
+        semantic_prompt
     )
 
     # =====================================================
