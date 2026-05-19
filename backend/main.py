@@ -205,7 +205,9 @@ def ask_question(request: QuestionRequest):
                 sql_query,
                 e,
                 minimal_schema,
-                relationship_prompt
+                relationship_prompt,
+                limit_value
+                
             )
         )
 
