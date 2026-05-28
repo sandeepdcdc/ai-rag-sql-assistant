@@ -364,7 +364,8 @@ import {
   PieChart,
   Pie,
   Cell,
-  Legend
+  Legend,
+  LabelList
 } from "recharts";
 
 function App() {
@@ -535,42 +536,144 @@ function App() {
     // DEFAULT -> BAR CHART
     // =========================================
 
-    return (
+    // =========================================
+// PROFESSIONAL BAR CHART
+// =========================================
 
-      <ResponsiveContainer
-        width="100%"
-        height={400}
+// SMART DISPLAY COLUMN
+let displayKey = xKey;
+
+// Prefer readable name columns
+const possibleNameKeys = keys.filter((key) =>
+
+  key.toLowerCase().includes("name") ||
+  key.toLowerCase().includes("month") ||
+  key.toLowerCase().includes("branch") ||
+  key.toLowerCase().includes("patient") ||
+  key.toLowerCase().includes("state")
+
+);
+
+if (possibleNameKeys.length > 0) {
+
+  displayKey = possibleNameKeys[0];
+
+}
+
+return (
+
+  <div
+    style={{
+      width: "100%",
+      height: "500px"
+    }}
+  >
+
+    {/* ========================================= */}
+    {/* CHART TITLE */}
+    {/* ========================================= */}
+
+    <h3
+      style={{
+        textAlign: "center",
+        marginBottom: "20px",
+        color: "#333",
+        fontSize: "28px",
+        fontWeight: "bold"
+      }}
+    >
+      Query Visualization
+    </h3>
+
+    <ResponsiveContainer
+      width="100%"
+      height="90%"
+    >
+
+      <BarChart
+        data={data}
+        margin={{
+          top: 40,
+          right: 30,
+          left: 20,
+          bottom: 80
+        }}
       >
 
-        <BarChart data={data}>
+        <CartesianGrid
+          strokeDasharray="3 3"
+        />
 
-          <CartesianGrid strokeDasharray="3 3" />
+        {/* ========================================= */}
+        {/* X AXIS */}
+        {/* ========================================= */}
 
-          <XAxis
-            dataKey={xKey}
-            angle={-15}
-            textAnchor="end"
-            interval={0}
-            height={70}
-          />
+        <XAxis
+          dataKey={displayKey}
+          angle={-10}
+          textAnchor="end"
+          interval={0}
+          height={80}
+          tick={{
+            fontSize: 13
+          }}
+        />
 
-          <YAxis />
+        {/* ========================================= */}
+        {/* Y AXIS */}
+        {/* ========================================= */}
 
-          <Tooltip />
+        <YAxis
+          tick={{
+            fontSize: 13
+          }}
+        />
 
-          <Legend />
+        {/* ========================================= */}
+        {/* TOOLTIP */}
+        {/* ========================================= */}
 
-          <Bar
+        <Tooltip />
+
+        <Legend />
+
+        {/* ========================================= */}
+        {/* BAR */}
+        {/* ========================================= */}
+
+        <Bar
+          dataKey={yKey}
+          fill="#1677ff"
+          radius={[8, 8, 0, 0]}
+          barSize={55}
+        >
+
+          {/* ========================================= */}
+          {/* DATA LABEL */}
+          {/* ========================================= */}
+
+          <LabelList
             dataKey={yKey}
-            fill="#007bff"
-            radius={[6, 6, 0, 0]}
+            position="top"
+            formatter={(value) =>
+              Number(value).toLocaleString()
+            }
+            style={{
+              fill: "#222",
+              fontSize: 13,
+              fontWeight: "bold"
+            }}
           />
 
-        </BarChart>
+        </Bar>
 
-      </ResponsiveContainer>
+      </BarChart>
 
-    );
+    </ResponsiveContainer>
+
+  </div>
+
+);
 
   };
 
