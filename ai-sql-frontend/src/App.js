@@ -1,5 +1,20 @@
 // import { useState } from "react";
 // import axios from "axios";
+// import {
+//   BarChart,
+//   Bar,
+//   XAxis,
+//   YAxis,
+//   Tooltip,
+//   ResponsiveContainer,
+//   CartesianGrid,
+//   LineChart,
+//   Line,
+//   PieChart,
+//   Pie,
+//   Cell,
+//   Legend
+// } from "recharts";
 
 // function App() {
 
@@ -7,9 +22,27 @@
 //   const [result, setResult] = useState(null);
 //   const [loading, setLoading] = useState(false);
 
+//   // =========================================
+//   // FORMAT COLUMN NAME
+//   // billing_count -> Billing Count
+//   // branch_name -> Branch Name
+//   // =========================================
+//   const formatColumnName = (column) => {
+
+//   return column
+//     .replace(/_/g, " ")
+//     .replace(/\b\w/g, (char) => char.toUpperCase())
+//     .replace(/\bId\b/g, "ID")
+//     .trim();
+
+// };
+
+//   // =========================================
+//   // ASK QUESTION
+//   // =========================================
 //   const askQuestion = async () => {
 
-//     if (!question) return;
+//     if (!question.trim()) return;
 
 //     setLoading(true);
 
@@ -33,6 +66,7 @@
 //     }
 
 //     setLoading(false);
+
 //   };
 
 //   return (
@@ -40,29 +74,46 @@
 //     <div
 //       style={{
 //         minHeight: "100vh",
-//         background: "#f5f5f5",
-//         padding: "40px"
+//         background: "#f4f6f9",
+//         padding: "40px",
+//         fontFamily: "Arial"
 //       }}
 //     >
 
 //       <div
 //         style={{
-//           maxWidth: "1200px",
+//           maxWidth: "1300px",
 //           margin: "auto",
-//           background: "white",
-//           padding: "30px",
-//           borderRadius: "10px"
+//           background: "#ffffff",
+//           padding: "35px",
+//           borderRadius: "12px",
+//           boxShadow: "0 2px 10px rgba(0,0,0,0.1)"
 //         }}
 //       >
 
-//         <h1 style={{ marginBottom: "20px" }}>
-//           AI RAG LLM
+//         {/* ========================================= */}
+//         {/* HEADER */}
+//         {/* ========================================= */}
+
+//         <h1
+//           style={{
+//             marginBottom: "25px",
+//             color: "#222",
+//             fontSize: "42px"
+//           }}
+//         >
+//           AI SQL Assistant
 //         </h1>
+
+//         {/* ========================================= */}
+//         {/* INPUT SECTION */}
+//         {/* ========================================= */}
 
 //         <div
 //           style={{
 //             display: "flex",
-//             gap: "10px"
+//             gap: "10px",
+//             marginBottom: "20px"
 //           }}
 //         >
 
@@ -71,108 +122,217 @@
 //             placeholder="Ask your database question..."
 //             value={question}
 //             onChange={(e) => setQuestion(e.target.value)}
+//             onKeyDown={(e) => {
+//               if (e.key === "Enter") {
+//                 askQuestion();
+//               }
+//             }}
 //             style={{
 //               flex: 1,
-//               padding: "12px",
-//               fontSize: "16px"
+//               padding: "14px",
+//               fontSize: "17px",
+//               borderRadius: "6px",
+//               border: "1px solid #ccc",
+//               outline: "none"
 //             }}
 //           />
 
 //           <button
 //             onClick={askQuestion}
+//             disabled={loading}
 //             style={{
-//               padding: "12px 20px",
-//               background: "#007bff",
+//               padding: "14px 24px",
+//               background: loading ? "#999" : "#007bff",
 //               color: "white",
 //               border: "none",
-//               cursor: "pointer"
+//               borderRadius: "6px",
+//               cursor: "pointer",
+//               fontSize: "16px",
+//               fontWeight: "bold"
 //             }}
 //           >
-//             Ask
+//             {loading ? "Loading..." : "Ask"}
 //           </button>
 
 //         </div>
 
+//         {/* ========================================= */}
+//         {/* LOADING */}
+//         {/* ========================================= */}
+
 //         {loading && (
-//           <p style={{ marginTop: "20px" }}>
-//             Generating result...
-//           </p>
+
+//           <div
+//             style={{
+//               marginTop: "15px",
+//               color: "#555",
+//               fontSize: "16px"
+//             }}
+//           >
+//             Generating SQL and fetching results...
+//           </div>
+
 //         )}
+
+//         {/* ========================================= */}
+//         {/* RESULT SECTION */}
+//         {/* ========================================= */}
 
 //         {result && (
 
 //           <div style={{ marginTop: "40px" }}>
 
-//             <h2>Generated SQL</h2>
+//             {/* ========================================= */}
+//             {/* GENERATED SQL */}
+//             {/* ========================================= */}
+
+//             <h2
+//               style={{
+//                 marginBottom: "15px",
+//                 color: "#222"
+//               }}
+//             >
+//               Generated SQL
+//             </h2>
 
 //             <pre
 //               style={{
-//                 background: "#222",
-//                 color: "#00ff00",
-//                 padding: "20px",
-//                 overflow: "auto"
+//                 background: "#1e1e1e",
+//                 color: "#00ff66",
+//                 padding: "25px",
+//                 borderRadius: "8px",
+//                 overflowX: "auto",
+//                 fontSize: "15px",
+//                 lineHeight: "1.6"
 //               }}
 //             >
 //               {result.sql}
 //             </pre>
 
-//             <h2 style={{ marginTop: "30px" }}>
+//             {/* ========================================= */}
+//             {/* QUERY RESULT */}
+//             {/* ========================================= */}
+
+//             <h2
+//               style={{
+//                 marginTop: "35px",
+//                 marginBottom: "15px",
+//                 color: "#222"
+//               }}
+//             >
 //               Query Result
 //             </h2>
 
-//             <div style={{ overflow: "auto" }}>
+//             {/* ========================================= */}
+//             {/* NO DATA */}
+//             {/* ========================================= */}
 
-//               <table
-//                 border="1"
-//                 cellPadding="10"
+//             {(!result.result || result.result.length === 0) ? (
+
+//               <div
 //                 style={{
-//                   width: "100%",
-//                   borderCollapse: "collapse"
+//                   padding: "20px",
+//                   background: "#fff3cd",
+//                   border: "1px solid #ffeeba",
+//                   borderRadius: "6px",
+//                   color: "#856404"
+//                 }}
+//               >
+//                 No data found.
+//               </div>
+
+//             ) : (
+
+//               <div
+//                 style={{
+//                   overflowX: "auto",
+//                   borderRadius: "8px"
 //                 }}
 //               >
 
-//                 <thead>
+//                 <table
+//                   style={{
+//                     width: "100%",
+//                     borderCollapse: "collapse",
+//                     background: "white"
+//                   }}
+//                 >
 
-//                   <tr>
+//                   {/* ========================================= */}
+//                   {/* TABLE HEADER */}
+//                   {/* ========================================= */}
 
-//                     {result.result &&
-//                      result.result.length > 0 &&
-//                      Object.keys(result.result[0]).map((key) => (
+//                   <thead>
 
-//                       <th key={key}>
-//                         {key}
-//                       </th>
+//                     <tr
+//                       style={{
+//                         background: "#007bff",
+//                         color: "white"
+//                       }}
+//                     >
 
-//                     ))}
+//                       {Object.keys(result.result[0]).map((key) => (
 
-//                   </tr>
-
-//                 </thead>
-
-//                 <tbody>
-
-//                   {result.result &&
-//                    result.result.map((row, index) => (
-
-//                     <tr key={index}>
-
-//                       {Object.values(row).map((value, i) => (
-
-//                         <td key={i}>
-//                           {value}
-//                         </td>
+//                         <th
+//                           key={key}
+//                           style={{
+//                             padding: "14px",
+//                             border: "1px solid #ddd",
+//                             textAlign: "left",
+//                             fontSize: "15px"
+//                           }}
+//                         >
+//                           {formatColumnName(key)}
+//                         </th>
 
 //                       ))}
 
 //                     </tr>
 
-//                   ))}
+//                   </thead>
 
-//                 </tbody>
+//                   {/* ========================================= */}
+//                   {/* TABLE BODY */}
+//                   {/* ========================================= */}
 
-//               </table>
+//                   <tbody>
 
-//             </div>
+//                     {result.result.map((row, index) => (
+
+//                       <tr
+//                         key={index}
+//                         style={{
+//                           background:
+//                             index % 2 === 0 ? "#ffffff" : "#f8f9fa"
+//                         }}
+//                       >
+
+//                         {Object.values(row).map((value, i) => (
+
+//                           <td
+//                             key={i}
+//                             style={{
+//                               padding: "12px",
+//                               border: "1px solid #ddd",
+//                               fontSize: "15px"
+//                             }}
+//                           >
+//                             {value}
+//                           </td>
+
+//                         ))}
+
+//                       </tr>
+
+//                     ))}
+
+//                   </tbody>
+
+//                 </table>
+
+//               </div>
+
+//             )}
 
 //           </div>
 
@@ -181,13 +341,31 @@
 //       </div>
 
 //     </div>
+
 //   );
+
 // }
 
 // export default App;
 
 import { useState } from "react";
 import axios from "axios";
+
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  Legend
+} from "recharts";
 
 function App() {
 
@@ -198,21 +376,22 @@ function App() {
   // =========================================
   // FORMAT COLUMN NAME
   // billing_count -> Billing Count
-  // branch_name -> Branch Name
   // =========================================
+
   const formatColumnName = (column) => {
 
-  return column
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase())
-    .replace(/\bId\b/g, "ID")
-    .trim();
+    return column
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (char) => char.toUpperCase())
+      .replace(/\bId\b/g, "ID")
+      .trim();
 
-};
+  };
 
   // =========================================
   // ASK QUESTION
   // =========================================
+
   const askQuestion = async () => {
 
     if (!question.trim()) return;
@@ -242,6 +421,159 @@ function App() {
 
   };
 
+  // =========================================
+  // AUTO CHART RENDERING
+  // =========================================
+
+  const renderChart = () => {
+
+    if (
+      !result ||
+      !result.result ||
+      result.result.length === 0
+    ) {
+      return null;
+    }
+
+    const data = result.result;
+
+    const keys = Object.keys(data[0]);
+
+    if (keys.length < 2) {
+      return null;
+    }
+
+    const xKey = keys[0];
+    const yKey = keys[keys.length - 1];
+
+    // =========================================
+    // MONTH TREND -> LINE CHART
+    // =========================================
+
+    if (
+      xKey.toLowerCase().includes("month")
+    ) {
+
+      return (
+
+        <ResponsiveContainer
+          width="100%"
+          height={400}
+        >
+
+          <LineChart data={data}>
+
+            <CartesianGrid strokeDasharray="3 3" />
+
+            <XAxis dataKey={xKey} />
+
+            <YAxis />
+
+            <Tooltip />
+
+            <Legend />
+
+            <Line
+              type="monotone"
+              dataKey={yKey}
+              stroke="#007bff"
+              strokeWidth={3}
+            />
+
+          </LineChart>
+
+        </ResponsiveContainer>
+
+      );
+
+    }
+
+    // =========================================
+    // PIE CHART FOR SMALL DISTRIBUTIONS
+    // =========================================
+
+    if (
+      data.length <= 5 &&
+      (
+        xKey.toLowerCase().includes("type") ||
+        xKey.toLowerCase().includes("category") ||
+        xKey.toLowerCase().includes("status")
+      )
+    ) {
+
+      return (
+
+        <ResponsiveContainer
+          width="100%"
+          height={400}
+        >
+
+          <PieChart>
+
+            <Pie
+              data={data}
+              dataKey={yKey}
+              nameKey={xKey}
+              outerRadius={140}
+              fill="#007bff"
+              label
+            />
+
+            <Tooltip />
+
+            <Legend />
+
+          </PieChart>
+
+        </ResponsiveContainer>
+
+      );
+
+    }
+
+    // =========================================
+    // DEFAULT -> BAR CHART
+    // =========================================
+
+    return (
+
+      <ResponsiveContainer
+        width="100%"
+        height={400}
+      >
+
+        <BarChart data={data}>
+
+          <CartesianGrid strokeDasharray="3 3" />
+
+          <XAxis
+            dataKey={xKey}
+            angle={-15}
+            textAnchor="end"
+            interval={0}
+            height={70}
+          />
+
+          <YAxis />
+
+          <Tooltip />
+
+          <Legend />
+
+          <Bar
+            dataKey={yKey}
+            fill="#007bff"
+            radius={[6, 6, 0, 0]}
+          />
+
+        </BarChart>
+
+      </ResponsiveContainer>
+
+    );
+
+  };
+
   return (
 
     <div
@@ -255,12 +587,12 @@ function App() {
 
       <div
         style={{
-          maxWidth: "1300px",
+          maxWidth: "1350px",
           margin: "auto",
           background: "#ffffff",
           padding: "35px",
-          borderRadius: "12px",
-          boxShadow: "0 2px 10px rgba(0,0,0,0.1)"
+          borderRadius: "14px",
+          boxShadow: "0 3px 14px rgba(0,0,0,0.08)"
         }}
       >
 
@@ -285,7 +617,7 @@ function App() {
         <div
           style={{
             display: "flex",
-            gap: "10px",
+            gap: "12px",
             marginBottom: "20px"
           }}
         >
@@ -296,15 +628,17 @@ function App() {
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             onKeyDown={(e) => {
+
               if (e.key === "Enter") {
                 askQuestion();
               }
+
             }}
             style={{
               flex: 1,
-              padding: "14px",
+              padding: "15px",
               fontSize: "17px",
-              borderRadius: "6px",
+              borderRadius: "8px",
               border: "1px solid #ccc",
               outline: "none"
             }}
@@ -314,11 +648,11 @@ function App() {
             onClick={askQuestion}
             disabled={loading}
             style={{
-              padding: "14px 24px",
-              background: loading ? "#999" : "#007bff",
+              padding: "15px 28px",
+              background: loading ? "#888" : "#007bff",
               color: "white",
               border: "none",
-              borderRadius: "6px",
+              borderRadius: "8px",
               cursor: "pointer",
               fontSize: "16px",
               fontWeight: "bold"
@@ -383,12 +717,49 @@ function App() {
             </pre>
 
             {/* ========================================= */}
+            {/* CHART VISUALIZATION */}
+            {/* ========================================= */}
+
+            {result.result &&
+             result.result.length > 0 && (
+
+              <>
+
+                <h2
+                  style={{
+                    marginTop: "35px",
+                    marginBottom: "15px",
+                    color: "#222"
+                  }}
+                >
+                  Visualization
+                </h2>
+
+                <div
+                  style={{
+                    background: "#fff",
+                    padding: "20px",
+                    borderRadius: "10px",
+                    boxShadow:
+                      "0 2px 10px rgba(0,0,0,0.05)",
+                    marginBottom: "35px"
+                  }}
+                >
+
+                  {renderChart()}
+
+                </div>
+
+              </>
+
+            )}
+
+            {/* ========================================= */}
             {/* QUERY RESULT */}
             {/* ========================================= */}
 
             <h2
               style={{
-                marginTop: "35px",
                 marginBottom: "15px",
                 color: "#222"
               }}
@@ -400,7 +771,8 @@ function App() {
             {/* NO DATA */}
             {/* ========================================= */}
 
-            {(!result.result || result.result.length === 0) ? (
+            {(!result.result ||
+              result.result.length === 0) ? (
 
               <div
                 style={{
@@ -444,7 +816,9 @@ function App() {
                       }}
                     >
 
-                      {Object.keys(result.result[0]).map((key) => (
+                      {Object.keys(
+                        result.result[0]
+                      ).map((key) => (
 
                         <th
                           key={key}
@@ -470,17 +844,21 @@ function App() {
 
                   <tbody>
 
-                    {result.result.map((row, index) => (
+                    {result.result.map(
+                      (row, index) => (
 
                       <tr
                         key={index}
                         style={{
                           background:
-                            index % 2 === 0 ? "#ffffff" : "#f8f9fa"
+                            index % 2 === 0
+                              ? "#ffffff"
+                              : "#f8f9fa"
                         }}
                       >
 
-                        {Object.values(row).map((value, i) => (
+                        {Object.values(row).map(
+                          (value, i) => (
 
                           <td
                             key={i}
