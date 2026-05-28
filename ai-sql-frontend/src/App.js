@@ -448,6 +448,29 @@ function App() {
     const yKey = keys[keys.length - 1];
 
     // =========================================
+// AUTO CHART TITLE
+// =========================================
+
+const generateChartTitle = () => {
+
+  let cleanQuestion = question;
+
+  cleanQuestion = cleanQuestion
+    .replace(/\bshow\b/gi, "")
+    .replace(/\bgive\b/gi, "")
+    .replace(/\blist\b/gi, "")
+    .trim();
+
+  return cleanQuestion
+    .replace(/\b\w/g, (char) =>
+      char.toUpperCase()
+    );
+
+};
+
+const chartTitle = generateChartTitle();
+
+    // =========================================
     // MONTH TREND -> LINE CHART
     // =========================================
 
@@ -472,7 +495,13 @@ function App() {
 
             <Tooltip />
 
-            <Legend />
+            <Legend
+              verticalAlign="bottom"
+              height={40}
+              wrapperStyle={{
+                fontSize: "15px"
+              }}
+            />
 
             <Line
               type="monotone"
@@ -537,8 +566,8 @@ function App() {
     // =========================================
 
     // =========================================
-// PROFESSIONAL BAR CHART
-// =========================================
+    // PROFESSIONAL BAR CHART
+    // =========================================
 
 // SMART DISPLAY COLUMN
 let displayKey = xKey;
@@ -568,7 +597,7 @@ return (
   <div
     style={{
       width: "100%",
-      height: "500px"
+      height: "620px"
     }}
   >
 
@@ -576,17 +605,17 @@ return (
     {/* CHART TITLE */}
     {/* ========================================= */}
 
-    <h3
-      style={{
-        textAlign: "center",
-        marginBottom: "20px",
-        color: "#333",
-        fontSize: "28px",
-        fontWeight: "bold"
-      }}
-    >
-      Query Visualization
-    </h3>
+<h3
+  style={{
+    textAlign: "center",
+    marginBottom: "25px",
+    color: "#1f2937",
+    fontSize: "34px",
+    fontWeight: "700"
+  }}
+>
+  {chartTitle}
+</h3>
 
     <ResponsiveContainer
       width="100%"
@@ -599,7 +628,7 @@ return (
           top: 40,
           right: 30,
           left: 20,
-          bottom: 80
+          bottom: 120
         }}
       >
 
@@ -611,16 +640,30 @@ return (
         {/* X AXIS */}
         {/* ========================================= */}
 
-        <XAxis
-          dataKey={displayKey}
-          angle={-10}
-          textAnchor="end"
-          interval={0}
-          height={80}
-          tick={{
-            fontSize: 13
-          }}
-        />
+  <XAxis
+    dataKey={displayKey}
+    interval={0}
+    height={100}
+    tick={{
+    fontSize: 13
+  }}
+  tickFormatter={(value) => {
+
+    if (!value) return "";
+
+    // WRAP LONG LABELS
+    if (value.length > 18) {
+
+      return value
+        .match(/.{1,18}/g)
+        ?.join("\n");
+
+    }
+
+    return value;
+
+  }}
+/>
 
         {/* ========================================= */}
         {/* Y AXIS */}
