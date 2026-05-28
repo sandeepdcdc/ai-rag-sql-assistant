@@ -546,11 +546,14 @@ let displayKey = xKey;
 // Prefer readable name columns
 const possibleNameKeys = keys.filter((key) =>
 
-  key.toLowerCase().includes("name") ||
-  key.toLowerCase().includes("month") ||
-  key.toLowerCase().includes("branch") ||
-  key.toLowerCase().includes("patient") ||
-  key.toLowerCase().includes("state")
+  (
+    key.toLowerCase().includes("name") ||
+    key.toLowerCase().includes("month")
+  )
+
+  &&
+
+  !key.toLowerCase().includes("id")
 
 );
 
