@@ -470,6 +470,20 @@ const generateChartTitle = () => {
 
 const chartTitle = generateChartTitle();
 
+// =========================================
+// DYNAMIC LABEL SETTINGS
+// =========================================
+
+const isLargeDataset = data.length > 6;
+
+const xAxisAngle = isLargeDataset ? -25 : 0;
+
+const xAxisHeight = isLargeDataset ? 140 : 100;
+
+const xAxisFontSize = isLargeDataset ? 11 : 13;
+
+const chartBottomMargin = isLargeDataset ? 150 : 110;
+
     // =========================================
     // MONTH TREND -> LINE CHART
     // =========================================
@@ -628,7 +642,8 @@ return (
           top: 40,
           right: 30,
           left: 20,
-          bottom: 120
+          bottom: chartBottomMargin
+          // bottom: 120
         }}
       >
 
@@ -640,22 +655,28 @@ return (
         {/* X AXIS */}
         {/* ========================================= */}
 
-  <XAxis
-    dataKey={displayKey}
-    interval={0}
-    height={100}
-    tick={{
-    fontSize: 13
+<XAxis
+  dataKey={displayKey}
+  interval={0}
+  angle={xAxisAngle}
+  textAnchor={
+    isLargeDataset
+      ? "end"
+      : "middle"
+  }
+  height={xAxisHeight}
+  tick={{
+    fontSize: xAxisFontSize
   }}
   tickFormatter={(value) => {
 
     if (!value) return "";
 
     // WRAP LONG LABELS
-    if (value.length > 18) {
+    if (value.length > 16) {
 
       return value
-        .match(/.{1,18}/g)
+        .match(/.{1,16}/g)
         ?.join("\n");
 
     }
