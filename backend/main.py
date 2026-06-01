@@ -83,6 +83,7 @@ class QuestionRequest(BaseModel):
 @app.post("/ask")
 
 def ask_question(request: QuestionRequest):
+    print('post req.................')
 
     question = request.question
 
