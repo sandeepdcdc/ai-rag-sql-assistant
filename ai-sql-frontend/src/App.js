@@ -461,21 +461,43 @@ function App() {
               tick={{
                 fontSize: xAxisFontSize
               }}
-              tickFormatter={(value) => {
+              // tickFormatter={(value) => {
 
-                if (!value) return "";
+              //   if (!value) return "";
 
-                if (value.length > 16) {
+              //   if (value.length > 16) {
 
-                  return value
-                    .match(/.{1,16}/g)
-                    ?.join("\n");
+              //     return value
+              //       .match(/.{1,16}/g)
+              //       ?.join("\n");
 
-                }
+              //   }
 
-                return value;
+              //   return value;
 
-              }}
+              // }}
+                 
+                  tickFormatter={(value) => {
+                    if (!value) return "";
+                    const words = value.split(" ");
+
+                    let lines = [];
+                    let currentLine = "";
+
+                    words.forEach((word) => {
+                      if (
+                        (currentLine + word).length > 18
+                      ) {
+                        lines.push(currentLine);
+                        currentLine = word + " ";
+                      } else {
+                        currentLine += word + " ";
+                      }
+                    });
+                    lines.push(currentLine);
+                    return lines.join("\n");
+                  }}
+
             />
 
             <YAxis
