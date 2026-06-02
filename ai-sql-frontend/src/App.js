@@ -401,14 +401,46 @@ function App() {
                 }}
               >
 
-                <LabelList
+                {/* <LabelList
                   dataKey={yKey}
                   position="top"
                   formatter={(value) =>
                     Number(value).toLocaleString()
                   }
-                />
+                /> */}
+                <LabelList
+                  dataKey={yKey}
+                  content={(props) => {
+                    const {
+                      x,
+                      y,
+                      width,
+                      value,
+                      index
+                    } = props;
 
+                    return (
+                      <text
+                        x={
+                          index === 0
+                            ? x + width + 10
+                            : x + width / 2
+                        }
+                        y={y - 10}
+                        fill="#666"
+                        textAnchor={
+                          index === 0
+                          ? "start"
+                          : "middle"
+                        }
+                        fontSize={14}
+                        fontWeight="600"
+                      >
+                        {Number(value).toLocaleString()}
+                      </text>
+                    );
+                  }}
+                />
               </Line>
 
             </LineChart>
