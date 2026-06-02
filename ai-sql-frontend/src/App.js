@@ -480,6 +480,13 @@ function App() {
 
               <BarChart
                 data={data}
+                barCategoryGap={
+                  data.length <= 3
+                  ? "35%"
+                  : data.length <= 5
+                  ? "25%"
+                  : "15%"
+                }
                 margin={{
                   top: 50,
                   right: 30,
@@ -505,7 +512,7 @@ function App() {
                 />
 
                 {/* <YAxis /> */}
-                <YAxis
+                {/* <YAxis
                   domain={[
                     (dataMin) => Math.floor(dataMin * 0.9),
                     (dataMax) => Math.ceil(dataMax * 1.05)
@@ -513,7 +520,15 @@ function App() {
                   tick={{
                     fontSize: 13
                   }}
-                 />
+                 /> */}
+                 <YAxis
+                    tick={{
+                      fontSize: 13
+                    }}
+                      tickFormatter={(value) =>
+                        Number(value).toLocaleString()
+                      }
+                   />
 
                 <Tooltip
                   formatter={(value) =>
@@ -535,11 +550,24 @@ function App() {
                   }
                 />
 
-                <Bar
+                {/* <Bar
                   dataKey={yKey}
                   fill="#1677ff"
                   radius={[8, 8, 0, 0]}
                   barSize={55}
+                > */}
+
+                <Bar
+                  dataKey={yKey}
+                  fill="#1677ff"
+                  radius={[8, 8, 0, 0]}
+                  barSize={
+                    data.length <= 3
+                      ? 120
+                      : data.length <= 5
+                      ? 90
+                      : 55
+                  }
                 >
 
                   <LabelList
