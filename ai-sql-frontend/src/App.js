@@ -71,6 +71,43 @@ function App() {
   };
 
   // =========================================
+  // WORD WRAP LABELS
+  // =========================================
+
+  const wrapLabel = (value) => {
+
+    if (!value) return "";
+
+    const words = value.split(" ");
+
+    let lines = [];
+    let currentLine = "";
+
+    words.forEach((word) => {
+
+      if (
+        (currentLine + word).length > 18
+      ) {
+
+        lines.push(currentLine);
+
+        currentLine = word + " ";
+
+      } else {
+
+        currentLine += word + " ";
+
+      }
+
+    });
+
+    lines.push(currentLine);
+
+    return lines.join("\n");
+
+  };
+
+  // =========================================
   // AUTO CHART RENDERING
   // =========================================
 
@@ -176,18 +213,18 @@ function App() {
     const chartTitle = generateChartTitle();
 
     // =========================================
-    // DYNAMIC LABEL SETTINGS
+    // DYNAMIC SETTINGS
     // =========================================
 
     const isLargeDataset = data.length > 6;
 
     const xAxisAngle = isLargeDataset ? -25 : 0;
 
-    const xAxisHeight = isLargeDataset ? 140 : 100;
+    const xAxisHeight = isLargeDataset ? 160 : 100;
 
     const xAxisFontSize = isLargeDataset ? 11 : 13;
 
-    const chartBottomMargin = isLargeDataset ? 150 : 110;
+    const chartBottomMargin = isLargeDataset ? 190 : 120;
 
     // =========================================
     // MONTH TREND -> LINE CHART
@@ -248,44 +285,7 @@ function App() {
                 tick={{
                   fontSize: xAxisFontSize
                 }}
-                // tickFormatter={(value) => {
-
-                //   if (!value) return "";
-
-                //   if (value.length > 16) {
-
-                //     return value
-                //       .match(/.{1,16}/g)
-                //       ?.join("\n");
-
-                //   }
-
-                //   return value;
-
-                // }}
-                tickFormatter={(value) => {
-                  if (!value) return "";
-                  const words = value.split(" ");
-
-                  let lines = [];
-                  let currentLine = "";
-
-                  words.forEach((word) => {
-                    if (
-                      (currentLine + word).length > 18
-                    ) {
-                      lines.push(currentLine);
-                      currentLine = word + " ";
-                    } else {
-                      currentLine += word + " ";
-                    }
-                   });
-                   lines.push(currentLine);
-
-                    return lines.join("\n");
-
-                  }}
-
+                tickFormatter={wrapLabel}
               />
 
               <YAxis
@@ -381,10 +381,11 @@ function App() {
             {chartTitle}
           </h3>
 
-           <ResponsiveContainer
+          <ResponsiveContainer
             width="100%"
             height="90%"
           >
+
             <PieChart>
 
               <Pie
@@ -451,248 +452,109 @@ function App() {
           {chartTitle}
         </h3>
 
-        {/* <ResponsiveContainer
-          width="100%"
-          height="90%"
-        > */}
-
         <div
-  style={{
-    width: "100%",
-    overflowX: data.length > 15 ? "auto" : "hidden",
-    overflowY: "hidden"
-  }}
->
-
-  <div
-    style={{
-      width: data.length > 15
-        ? `${data.length * 120}px`
-        : "100%",
-      height: "520px"
-    }}
-  >
-
-    <ResponsiveContainer
-      width="100%"
-      height="100%"
-    >
-
-      <BarChart
-        data={data}
-        margin={{
-          top: 50,
-          right: 30,
-          left: 20,
-          bottom: 170
-        }}
-      >
-
-        <CartesianGrid strokeDasharray="3 3" />
-
-        <XAxis
-          dataKey={displayKey}
-          interval={0}
-          angle={-25}
-          textAnchor="end"
-          height={140}
-          tick={{
-            fontSize: 12
+          style={{
+            width: "100%",
+            overflowX:
+              data.length > 15
+                ? "auto"
+                : "hidden",
+            overflowY: "hidden"
           }}
-          tickFormatter={(value) => {
-
-            if (!value) return "";
-
-            const words = value.split(" ");
-
-            let lines = [];
-            let currentLine = "";
-
-            words.forEach((word) => {
-
-              if (
-                (currentLine + word).length > 18
-              ) {
-
-                lines.push(currentLine);
-
-                currentLine = word + " ";
-
-              } else {
-
-                currentLine += word + " ";
-
-              }
-
-            });
-
-            lines.push(currentLine);
-
-            return lines.join("\n");
-
-          }}
-        />
-
-        <YAxis />
-
-        <Tooltip
-          formatter={(value) =>
-            Number(value).toLocaleString()
-          }
-        />
-
-        <Legend
-          verticalAlign="bottom"
-          height={40}
-        />
-
-        <Bar
-          dataKey={yKey}
-          fill="#1677ff"
-          radius={[8, 8, 0, 0]}
-          barSize={55}
         >
 
-          <LabelList
-            dataKey={yKey}
-            position="top"
-            formatter={(value) =>
-              Number(value).toLocaleString()
-            }
+          <div
             style={{
-              fill: "#222",
-              fontSize: 12,
-              fontWeight: "bold"
-            }}
-          />
-
-        </Bar>
-
-      </BarChart>
-
-    </ResponsiveContainer>
-
-  </div>
-
-</div>
-
-          <BarChart
-            data={data}
-            margin={{
-              top: 40,
-              right: 30,
-              left: 20,
-              bottom: chartBottomMargin
+              width:
+                data.length > 15
+                  ? `${data.length * 120}px`
+                  : "100%",
+              height: "520px"
             }}
           >
 
-            <CartesianGrid
-              strokeDasharray="3 3"
-            />
-
-            <XAxis
-              dataKey={displayKey}
-              interval={0}
-              angle={xAxisAngle}
-              textAnchor={
-                isLargeDataset
-                  ? "end"
-                  : "middle"
-              }
-              height={xAxisHeight}
-              tick={{
-                fontSize: xAxisFontSize
-              }}
-              // tickFormatter={(value) => {
-
-              //   if (!value) return "";
-
-              //   if (value.length > 16) {
-
-              //     return value
-              //       .match(/.{1,16}/g)
-              //       ?.join("\n");
-
-              //   }
-
-              //   return value;
-
-              // }}
-                 
-                  tickFormatter={(value) => {
-                    if (!value) return "";
-                    const words = value.split(" ");
-
-                    let lines = [];
-                    let currentLine = "";
-
-                    words.forEach((word) => {
-                      if (
-                        (currentLine + word).length > 18
-                      ) {
-                        lines.push(currentLine);
-                        currentLine = word + " ";
-                      } else {
-                        currentLine += word + " ";
-                      }
-                    });
-                    lines.push(currentLine);
-                    return lines.join("\n");
-                  }}
-
-            />
-
-            <YAxis
-              tick={{
-                fontSize: 13
-              }}
-            />
-
-            <Tooltip
-              formatter={(value) =>
-                Number(value).toLocaleString()
-              }
-            />
-
-            <Legend
-              verticalAlign="bottom"
-              height={40}
-              formatter={(value) =>
-
-                value
-                  .replaceAll("_", " ")
-                  .replace(/\b\w/g, (c) =>
-                    c.toUpperCase()
-                  )
-
-              }
-            />
-
-            <Bar
-              dataKey={yKey}
-              fill="#1677ff"
-              radius={[8, 8, 0, 0]}
-              barSize={55}
+            <ResponsiveContainer
+              width="100%"
+              height="100%"
             >
 
-              <LabelList
-                dataKey={yKey}
-                position="top"
-                formatter={(value) =>
-                  Number(value).toLocaleString()
-                }
-                style={{
-                  fill: "#222",
-                  fontSize: 13,
-                  fontWeight: "bold"
+              <BarChart
+                data={data}
+                margin={{
+                  top: 50,
+                  right: 30,
+                  left: 20,
+                  bottom: 170
                 }}
-              />
+              >
 
-            </Bar>
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                />
 
-          </BarChart>
+                <XAxis
+                  dataKey={displayKey}
+                  interval={0}
+                  angle={-25}
+                  textAnchor="end"
+                  height={140}
+                  tick={{
+                    fontSize: 12
+                  }}
+                  tickFormatter={wrapLabel}
+                />
 
-        </ResponsiveContainer>
+                <YAxis />
+
+                <Tooltip
+                  formatter={(value) =>
+                    Number(value).toLocaleString()
+                  }
+                />
+
+                <Legend
+                  verticalAlign="bottom"
+                  height={40}
+                  formatter={(value) =>
+
+                    value
+                      .replaceAll("_", " ")
+                      .replace(/\b\w/g, (c) =>
+                        c.toUpperCase()
+                      )
+
+                  }
+                />
+
+                <Bar
+                  dataKey={yKey}
+                  fill="#1677ff"
+                  radius={[8, 8, 0, 0]}
+                  barSize={55}
+                >
+
+                  <LabelList
+                    dataKey={yKey}
+                    position="top"
+                    formatter={(value) =>
+                      Number(value).toLocaleString()
+                    }
+                    style={{
+                      fill: "#222",
+                      fontSize: 12,
+                      fontWeight: "bold"
+                    }}
+                  />
+
+                </Bar>
+
+              </BarChart>
+
+            </ResponsiveContainer>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -744,7 +606,9 @@ function App() {
             type="text"
             placeholder="Ask your database question..."
             value={question}
-            onChange={(e) => setQuestion(e.target.value)}
+            onChange={(e) =>
+              setQuestion(e.target.value)
+            }
             onKeyDown={(e) => {
 
               if (e.key === "Enter") {
@@ -767,7 +631,10 @@ function App() {
             disabled={loading}
             style={{
               padding: "15px 28px",
-              background: loading ? "#888" : "#007bff",
+              background:
+                loading
+                  ? "#888"
+                  : "#007bff",
               color: "white",
               border: "none",
               borderRadius: "8px",
@@ -776,7 +643,9 @@ function App() {
               fontWeight: "bold"
             }}
           >
-            {loading ? "Loading..." : "Ask"}
+            {loading
+              ? "Loading..."
+              : "Ask"}
           </button>
 
         </div>
@@ -797,7 +666,11 @@ function App() {
 
         {result && (
 
-          <div style={{ marginTop: "40px" }}>
+          <div
+            style={{
+              marginTop: "40px"
+            }}
+          >
 
             <h2
               style={{
@@ -865,8 +738,10 @@ function App() {
               Query Result
             </h2>
 
-            {(!result.result ||
-              result.result.length === 0) ? (
+            {(
+              !result.result ||
+              result.result.length === 0
+            ) ? (
 
               <div
                 style={{
