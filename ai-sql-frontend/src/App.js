@@ -121,7 +121,8 @@ function App() {
       return null;
     }
 
-    const data = result.result;
+    // const data = result.result;
+    let data = [...result.result];
 
     const keys = Object.keys(data[0]);
 
@@ -132,6 +133,47 @@ function App() {
     const xKey = keys[0];
 
     const yKey = keys[keys.length - 1];
+
+
+    // =========================================
+    // AUTO SORT FOR BAR / PIE CHARTS
+    // =========================================
+
+const isMonthChart = keys.some(
+
+  (k) =>
+
+    k.toLowerCase().includes("month")
+
+);
+
+const isYearChart = keys.some(
+
+  (k) =>
+
+    k.toLowerCase().includes("year")
+
+);
+
+// SORT ONLY NON-TIME CHARTS
+
+if (
+
+  !isMonthChart &&
+
+  !isYearChart
+
+) {
+
+  data.sort(
+
+    (a, b) =>
+
+      Number(b[yKey]) - Number(a[yKey])
+
+  );
+
+}
 
     // =========================================
     // SMART DISPLAY COLUMN
