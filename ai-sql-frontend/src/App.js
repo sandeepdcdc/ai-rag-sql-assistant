@@ -381,11 +381,10 @@ function App() {
             {chartTitle}
           </h3>
 
-          <ResponsiveContainer
+           <ResponsiveContainer
             width="100%"
             height="90%"
           >
-
             <PieChart>
 
               <Pie
@@ -452,10 +451,130 @@ function App() {
           {chartTitle}
         </h3>
 
-        <ResponsiveContainer
+        {/* <ResponsiveContainer
           width="100%"
           height="90%"
+        > */}
+
+        <div
+  style={{
+    width: "100%",
+    overflowX: data.length > 15 ? "auto" : "hidden",
+    overflowY: "hidden"
+  }}
+>
+
+  <div
+    style={{
+      width: data.length > 15
+        ? `${data.length * 120}px`
+        : "100%",
+      height: "520px"
+    }}
+  >
+
+    <ResponsiveContainer
+      width="100%"
+      height="100%"
+    >
+
+      <BarChart
+        data={data}
+        margin={{
+          top: 50,
+          right: 30,
+          left: 20,
+          bottom: 170
+        }}
+      >
+
+        <CartesianGrid strokeDasharray="3 3" />
+
+        <XAxis
+          dataKey={displayKey}
+          interval={0}
+          angle={-25}
+          textAnchor="end"
+          height={140}
+          tick={{
+            fontSize: 12
+          }}
+          tickFormatter={(value) => {
+
+            if (!value) return "";
+
+            const words = value.split(" ");
+
+            let lines = [];
+            let currentLine = "";
+
+            words.forEach((word) => {
+
+              if (
+                (currentLine + word).length > 18
+              ) {
+
+                lines.push(currentLine);
+
+                currentLine = word + " ";
+
+              } else {
+
+                currentLine += word + " ";
+
+              }
+
+            });
+
+            lines.push(currentLine);
+
+            return lines.join("\n");
+
+          }}
+        />
+
+        <YAxis />
+
+        <Tooltip
+          formatter={(value) =>
+            Number(value).toLocaleString()
+          }
+        />
+
+        <Legend
+          verticalAlign="bottom"
+          height={40}
+        />
+
+        <Bar
+          dataKey={yKey}
+          fill="#1677ff"
+          radius={[8, 8, 0, 0]}
+          barSize={55}
         >
+
+          <LabelList
+            dataKey={yKey}
+            position="top"
+            formatter={(value) =>
+              Number(value).toLocaleString()
+            }
+            style={{
+              fill: "#222",
+              fontSize: 12,
+              fontWeight: "bold"
+            }}
+          />
+
+        </Bar>
+
+      </BarChart>
+
+    </ResponsiveContainer>
+
+  </div>
+
+</div>
 
           <BarChart
             data={data}
