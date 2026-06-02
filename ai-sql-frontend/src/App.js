@@ -137,57 +137,131 @@ function App() {
     // SMART DISPLAY COLUMN
     // =========================================
 
-    const getDisplayKey = () => {
+    // const getDisplayKey = () => {
 
-      const priorityKeys = [
+    //   const priorityKeys = [
 
-        "month_name",
-        "branch_name",
-        "patient_name",
-        "state_name",
-        "full_name",
-        "doctor_name"
+    //     "month_name",
+    //     "branch_name",
+    //     "patient_name",
+    //     "state_name",
+    //     "full_name",
+    //     "doctor_name"
 
-      ];
+    //   ];
 
-      for (const key of priorityKeys) {
+    //   for (const key of priorityKeys) {
 
-        const found = keys.find(
-          (k) =>
-            k.toLowerCase() === key
-        );
+    //     const found = keys.find(
+    //       (k) =>
+    //         k.toLowerCase() === key
+    //     );
 
-        if (found) {
+    //     if (found) {
 
-          return found;
+    //       return found;
 
-        }
+    //     }
 
-      }
+    //   }
 
-      const genericName = keys.find(
+    //   const genericName = keys.find(
 
-        (k) =>
+    //     (k) =>
 
-          k.toLowerCase().includes("name")
+    //       k.toLowerCase().includes("name")
 
-          &&
+    //       &&
 
-          !k.toLowerCase().includes("id")
+    //       !k.toLowerCase().includes("id")
 
-      );
+    //   );
 
-      if (genericName) {
+    //   if (genericName) {
 
-        return genericName;
+    //     return genericName;
 
-      }
+    //   }
 
-      return keys[0];
+    //   return keys[0];
 
-    };
+    // };
+  const getDisplayKey = () => {
 
-    const displayKey = getDisplayKey();
+  // =====================================
+  // MONTH TREND -> ALWAYS USE MONTH
+  // =====================================
+
+  const monthKey = keys.find(
+
+    (k) =>
+
+      k.toLowerCase().includes("month")
+
+  );
+
+  if (monthKey) {
+
+    return monthKey;
+
+  }
+
+  // =====================================
+  // NAME PRIORITY
+  // =====================================
+
+  const priorityKeys = [
+
+    "branch_name",
+    "patient_name",
+    "state_name",
+    "full_name",
+    "doctor_name"
+
+  ];
+
+  for (const key of priorityKeys) {
+
+    const found = keys.find(
+      (k) =>
+        k.toLowerCase() === key
+    );
+
+    if (found) {
+
+      return found;
+
+    }
+
+  }
+
+  // =====================================
+  // GENERIC NAME
+  // =====================================
+
+  const genericName = keys.find(
+
+    (k) =>
+
+      k.toLowerCase().includes("name")
+
+      &&
+
+      !k.toLowerCase().includes("id")
+
+  );
+
+  if (genericName) {
+
+    return genericName;
+
+  }
+
+  return keys[0];
+
+};
+
+  const displayKey = getDisplayKey();
 
     // =========================================
     // AUTO CHART TITLE
@@ -263,9 +337,9 @@ function App() {
             <LineChart
               data={data}
               margin={{
-                top: 40,
-                right: 30,
-                left: 20,
+                top: 70,
+                right: 40,
+                left: 80,
                 bottom: chartBottomMargin
               }}
             >
