@@ -469,7 +469,7 @@ function App() {
                 data.length > 15
                   ? `${data.length * 120}px`
                   : "100%",
-              height: "520px"
+              height: "650px"
             }}
           >
 
@@ -504,7 +504,16 @@ function App() {
                   tickFormatter={wrapLabel}
                 />
 
-                <YAxis />
+                {/* <YAxis /> */}
+                <YAxis
+                  domain={[
+                    (dataMin) => Math.floor(dataMin * 0.9),
+                    (dataMax) => Math.ceil(dataMax * 1.05)
+                  ]}
+                  tick={{
+                    fontSize: 13
+                  }}
+                 />
 
                 <Tooltip
                   formatter={(value) =>
